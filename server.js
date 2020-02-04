@@ -1,5 +1,9 @@
 var express = require("express");
 var mongoose = require("mongoose");
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 var axios = require("axios")
 var cheerio = require("cheerio");
 
@@ -29,10 +33,9 @@ app.get("/scrape", function (req, res) {
 
       var results = {};
 
-      result.title = $(this).children("a").text();
-      result.link = $(this).children("a").text()
-
-      db.Article.create(result).then(function (dbArticle) {
+      results.title = $(this).children("a").text();
+      results.link = $(this).children("a").attr("href");
+      db.create(results).then(function (dbArticle) {
 
         console.log(dbArticle);
 
